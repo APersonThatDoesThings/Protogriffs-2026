@@ -20,7 +20,7 @@ public class ZeMotors extends LinearOpMode {
         // Gecko Wheel setup
         DcMotor geckoWheel = hardwareMap.get(DcMotor.class, "geckoWheel");
 
-        // Rhinow wheel setup
+        // Rhino wheel setup
         DcMotor flywheel = hardwareMap.get(DcMotor.class, "flywheel");
 
         waitForStart();
@@ -56,12 +56,10 @@ public class ZeMotors extends LinearOpMode {
 
             // Cycle artifacts through the "system"
             if (gamepad1.y) {
-                geckoWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(0.2);
-                intake.setTargetPosition(1000);
                 geckoWheel.setPower(0.2);
-                geckoWheel.setTargetPosition(1000);
             }
             else {
                 intake.setPower(0);
