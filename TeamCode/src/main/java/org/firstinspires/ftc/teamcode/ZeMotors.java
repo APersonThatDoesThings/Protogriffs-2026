@@ -9,10 +9,6 @@ public class ZeMotors extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        /*
-        so basically I forgot what i named everything so this is temporary but will
-        be closer than what was previously here
-         */
 
         // Intake (obviously)
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
@@ -64,6 +60,18 @@ public class ZeMotors extends LinearOpMode {
             else {
                 intake.setPower(0);
                 geckoWheel.setPower(0);
+            }
+
+            // this was a suggestion from laffiyette (weston lafollette) that we add in case
+            // the robot breaks again and we're a push bot. It basically allows us to eject balls
+            // from the ramp area.
+            if (gamepad1.b) {
+                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                intake.setPower(-0.5);
+            }
+
+            else {
+                intake.setPower(0);
             }
 
         }
