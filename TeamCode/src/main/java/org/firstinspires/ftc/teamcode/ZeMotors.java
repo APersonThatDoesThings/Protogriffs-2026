@@ -1,0 +1,75 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+@TeleOp(name = "You Drive")
+public class ZeMotors extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        /*
+        so basically I forgot what i named everything so this is temporary but will
+        be closer than what was previously here
+         */
+
+        // Intake (obviously)
+        DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
+
+        // Gecko Wheel setup
+        DcMotor geckoWheel = hardwareMap.get(DcMotor.class, "geckoWheel");
+
+        // Rhinow wheel setup
+        DcMotor flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+
+        waitForStart();
+        while (this.opModeIsActive()) {
+
+            // Turn on intake
+            if (gamepad1.right_trigger >= 0.5) {
+
+                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                intake.setPower(1);
+            }
+            else {
+                intake.setPower(0);
+            }
+
+            // If statement for launcher activation
+            if (gamepad1.left_trigger >= 0.5) {
+
+                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                flywheel.setPower(1);
+                geckoWheel.setPower(1);
+                intake.setPower(1);
+
+            }
+            else {
+                flywheel.setPower(0);
+                geckoWheel.setPower(0);
+                intake.setPower(0);
+            }
+
+            // Cycle artifacts through the "system"
+            if (gamepad1.y) {
+                geckoWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                intake.setPower(0.2);
+                intake.setTargetPosition(1000);
+                geckoWheel.setPower(0.2);
+                geckoWheel.setTargetPosition(1000);
+            }
+            else {
+                intake.setPower(0);
+                geckoWheel.setPower(0);
+            }
+
+        }
+
+    }
+
+}
