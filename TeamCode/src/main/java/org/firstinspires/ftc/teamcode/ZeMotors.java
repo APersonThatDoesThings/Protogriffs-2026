@@ -67,11 +67,14 @@ public class ZeMotors extends LinearOpMode {
             // from the ramp area.
             if (gamepad1.b) {
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(-0.5);
+                geckoWheel.setPower(-0.5);
             }
 
             else {
                 intake.setPower(0);
+                geckoWheel.setPower(0);
             }
 
         }
