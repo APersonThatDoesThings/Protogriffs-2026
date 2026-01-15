@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
+
 import static org.firstinspires.ftc.teamcode.config.Config.Drivetrain.*;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -245,7 +245,7 @@ public class Drivetrain {
         final double maxTurnPower = Config.Autonomous.MAX_TURN_POWER; // Maximum power during turn
         final double minTurnPower = Config.Autonomous.MIN_TURN_POWER; // Minimum power to ensure movement
         final double tolerance =    Config.Autonomous.ANGLE_TOLERANCE; // Degrees within target to stop
-        final double kP =	  Config.Autonomous.KP_CONSTANT; // Proportional control constant
+        final double kP =      Config.Autonomous.KP_CONSTANT; // Proportional control constant
 
         // Set motors to RUN_WITHOUT_ENCODER for turning because
         // The system uses the IMU rather than the encoders

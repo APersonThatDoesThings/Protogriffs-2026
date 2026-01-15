@@ -54,8 +54,8 @@ public class ZeMotors extends LinearOpMode {
             if (gamepad1.y) {
                 geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                intake.setPower(0.2);
-                geckoWheel.setPower(0.2);
+                intake.setPower(0.4);
+                geckoWheel.setPower(0.4);
             }
             else {
                 intake.setPower(0);

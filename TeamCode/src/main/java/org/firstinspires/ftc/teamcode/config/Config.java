@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.config;
 
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-
 /*
     The purpose of this class is to have
     all the relevant parameters in one place
@@ -83,25 +79,5 @@ public class Config {
         public final static double ANGLE_TOLERANCE = 0.1;
         public final static double KP_CONSTANT = 0.01;
 
-    }
-
-    public static class Vision{
-        /* Blue HSV detection range */
-        public final static Scalar BLUE_LOWER_HSV = new Scalar(90,100,50);
-        public final static Scalar BLUE_UPPER_HSV = new Scalar(150,255,255);
-
-        /* Red HSV detection range */
-        // TODO: Change this values for Red
-        public final static Scalar RED_LOWER_HSV = new Scalar(0,0,0);
-        public final static Scalar RED_UPPER_HSV = new Scalar(0,0,0);
-
-        /* Yellow HSV detection range */
-        // TODO: Change this values for Yellow
-        public final static Scalar YEL_LOWER_HSV = new Scalar(0,0,0);
-        public final static Scalar YEL_UPPER_HSV = new Scalar(0,0,0);
-
-        public final static Point TOP_LEFT_CORNER =	new Point(100, 100);
-        public final static Point BOTTOM_RIGHT_CORNER = new Point(200,200);
-        public final static Rect TARGET_AREA = new Rect(TOP_LEFT_CORNER, BOTTOM_RIGHT_CORNER);
     }
 }
