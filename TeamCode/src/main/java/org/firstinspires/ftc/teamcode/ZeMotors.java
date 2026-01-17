@@ -37,17 +37,16 @@ public class ZeMotors extends LinearOpMode {
 
             if (gamepad1.left_trigger >= 0.5) {
                 isLeftTriggerDown = true;
+            } else {
+                isLeftTriggerDown = false;
             }
-
-            else { isLeftTriggerDown = false; }
 
             // Turn on intake
             if (gamepad1.right_trigger >= 0.5) {
 
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(1);
-            }
-            else {
+            } else {
                 intake.setPower(0);
             }
 
@@ -62,8 +61,7 @@ public class ZeMotors extends LinearOpMode {
                 geckoWheel.setPower(1);
                 intake.setPower(1);
 
-            }
-            else {
+            } else {
                 flywheel.setPower(0);
                 geckoWheel.setPower(0);
                 intake.setPower(0);
@@ -75,8 +73,7 @@ public class ZeMotors extends LinearOpMode {
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(0.4);
                 geckoWheel.setPower(0.4);
-            }
-            else {
+            } else {
                 intake.setPower(0);
                 geckoWheel.setPower(0);
             }
@@ -89,20 +86,17 @@ public class ZeMotors extends LinearOpMode {
                 geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(-0.5);
                 geckoWheel.setPower(-0.5);
-            }
-
-            else {
+            } else {
                 intake.setPower(0);
                 geckoWheel.setPower(0);
             }
             // bootleg drivtrain code i made right before comp
-            if (gamepad1.dpad_up ) {
+            if (gamepad1.dpad_up) {
                 frontLeft.setPower(-1);
                 frontRight.setPower(1);
                 backRight.setPower(-1);
                 backLeft.setPower(1);
-            }
-            else {
+            } else {
                 frontLeft.setPower(0);
                 frontRight.setPower(0);
                 backRight.setPower(0);
@@ -113,8 +107,7 @@ public class ZeMotors extends LinearOpMode {
                 frontRight.setPower(-1);
                 backRight.setPower(1);
                 backLeft.setPower(-1);
-            }
-            else {
+            } else {
                 frontLeft.setPower(0);
                 frontRight.setPower(0);
                 backRight.setPower(0);
@@ -126,9 +119,7 @@ public class ZeMotors extends LinearOpMode {
                 frontRight.setPower(1);
                 backRight.setPower(-1);
                 backLeft.setPower(-1);
-            }
-
-            else {
+            } else {
                 frontLeft.setPower(0);
                 frontRight.setPower(0);
                 backRight.setPower(0);
@@ -140,9 +131,7 @@ public class ZeMotors extends LinearOpMode {
                 frontRight.setPower(-1);
                 backRight.setPower(1);
                 backLeft.setPower(1);
-                }
-
-            else {
+            } else {
                 frontLeft.setPower(0);
                 frontRight.setPower(0);
                 backRight.setPower(0);
@@ -157,22 +146,15 @@ public class ZeMotors extends LinearOpMode {
                 flywheel.setPower(1);
                 geckoWheel.setPower(1);
                 intake.setPower(1);
-            }
-
-            else if (gamepad1.right_bumper) {
+            } else if (gamepad1.right_bumper) {
 
                 flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 flywheel.setPower(1);
-            }
-
-            else {
+            } else {
                 flywheel.setPower(0);
                 geckoWheel.setPower(0);
                 intake.setPower(0);
             }
-
-            }
-
         }
-
     }
+}
