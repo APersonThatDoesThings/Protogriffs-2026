@@ -5,14 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
-
-@TeleOp(name = "Please use")
+@TeleOp(name = "Newest TeleOp")
 public class ZeMotorsNew extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-
 
         // Intake (obviously)
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
@@ -27,13 +26,9 @@ public class ZeMotorsNew extends LinearOpMode {
         Drivetrain drivetrain = new Drivetrain(hardwareMap);
         drivetrain.initOpMode();
 
-
         boolean isLeftTriggerDown = false;
 
-
         waitForStart();
-
-
 
         while (this.opModeIsActive()) {
 
@@ -43,7 +38,27 @@ public class ZeMotorsNew extends LinearOpMode {
 
             drivetrain.drive(drive, strafe, turn);
 
+            // store velocity
+            double currentFlywheelVelo = flywheel.getVelocity();
 
+            // declare and initialize default for velocity (0)
+            double oldFlywheelVelo = 0;
+
+            // check if current velocity is different from our old velocity
+            // if so, set the old velocity to current and tell DS to tell drivers
+            // what the current velocity is
+            // Also checks if velo is 4k and notifies that it is ready to fire
+
+            // WARNING: I HAVE NO CLUE HOW THE TICKS THINGS WORK SO IMA HAVE TO PLAY WITH IT
+            // so rn basically this is an indev feature and will eventually work right
+            // cheese incorporated (c) 2026
+            if (currentFlywheelVelo != oldFlywheelVelo) {
+                oldFlywheelVelo = currentFlywheelVelo;
+                telemetry.addData("Current Flywheel Velocity", currentFlywheelVelo);
+                if ((int) currentFlywheelVelo == 4000) {
+                    telemetry.addLine("Fire when ready!");
+                }
+            }
 
             if (gamepad1.left_trigger >= 0.5) {
                 isLeftTriggerDown = true;
@@ -73,6 +88,7 @@ public class ZeMotorsNew extends LinearOpMode {
                 intake.setPower(1);
 
             }
+
             else if(!gamepad1.right_bumper) {
                 flywheel.setPower(0);
                 geckoWheel.setPower(0);
@@ -80,6 +96,7 @@ public class ZeMotorsNew extends LinearOpMode {
             }
 
             // Cycle artifacts through the "system"
+            // forget if we need to change the speed or not
             if (gamepad1.y) {
                 geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -91,9 +108,7 @@ public class ZeMotorsNew extends LinearOpMode {
                 geckoWheel.setPower(0);
             }
 
-            // this was a suggestion from laffiyette (weston lafollette) that we add in case
-            // the robot breaks again and we're a push bot. It basically allows us to eject balls
-            // from the ramp area.
+            // artifact removal code
             if (gamepad1.b) {
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -106,13 +121,12 @@ public class ZeMotorsNew extends LinearOpMode {
                 geckoWheel.setPower(0);
             }
 
-
             if (gamepad1.right_bumper && isLeftTriggerDown) {
                 intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                flywheel.setVelocity(4000/60 * 28);
+                flywheel.setVelocity(4000 / 60 * 28);
                 geckoWheel.setPower(1);
                 intake.setPower(.75);
             }
@@ -120,7 +134,7 @@ public class ZeMotorsNew extends LinearOpMode {
             else if (gamepad1.right_bumper) {
 
                 flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                flywheel.setVelocity(4000/60 * 28);
+                flywheel.setVelocity(4000 / 60 * 28);
             }
 
             else {
@@ -128,9 +142,7 @@ public class ZeMotorsNew extends LinearOpMode {
                 geckoWheel.setPower(0);
                 intake.setPower(0);
             }
-
+            telemetry.update();
         }
-
     }
-
 }
