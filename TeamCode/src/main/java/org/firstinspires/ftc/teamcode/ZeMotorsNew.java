@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ZeMotorsNew extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        //this is a test
 
         // Intake (obviously)
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
