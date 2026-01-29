@@ -18,18 +18,19 @@ public class ZeMotorsNew extends LinearOpMode {
 
         // Intake (obviously)
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Gecko Wheel setup
         DcMotor geckoWheel = hardwareMap.get(DcMotor.class, "geckoWheel");
+        geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Rhino wheel setup
         DcMotorEx flywheel = (DcMotorEx) hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Drivetrain
         Drivetrain drivetrain = new Drivetrain(hardwareMap);
         drivetrain.initOpMode();
-
-        boolean isLeftTriggerDown = false;
 
         waitForStart();
 
@@ -63,16 +64,8 @@ public class ZeMotorsNew extends LinearOpMode {
                 }
             }
 
-            if (gamepad1.left_trigger >= 0.5) {
-                isLeftTriggerDown = true;
-            }
-
-            else { isLeftTriggerDown = false; }
-
             // Turn on intake
             if (gamepad1.right_trigger >= 0.5) {
-
-                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(.75);
             }
             else {
@@ -81,18 +74,17 @@ public class ZeMotorsNew extends LinearOpMode {
 
             // If statement for launcher activation
             if (gamepad1.left_trigger >= 0.5) {
-
-                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                flywheel.setVelocity(4000/60 * 28);
+                flywheel.setVelocity(4000 / 60 * 28);
                 geckoWheel.setPower(1);
                 intake.setPower(1);
 
             }
 
-            else if(!gamepad1.right_bumper) {
+            else if(gamepad1.right_bumper) {
+                flywheel.setVelocity(4000 / 60 * 28);
+            }
+
+            else {
                 flywheel.setPower(0);
                 geckoWheel.setPower(0);
                 intake.setPower(0);
@@ -101,8 +93,6 @@ public class ZeMotorsNew extends LinearOpMode {
             // Cycle artifacts through the "system"
             // forget if we need to change the speed or not
             if (gamepad1.y) {
-                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(0.4);
                 geckoWheel.setPower(0.4);
             }
@@ -113,8 +103,6 @@ public class ZeMotorsNew extends LinearOpMode {
 
             // artifact removal code
             if (gamepad1.b) {
-                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intake.setPower(-0.5);
                 geckoWheel.setPower(-0.5);
             }
@@ -124,27 +112,6 @@ public class ZeMotorsNew extends LinearOpMode {
                 geckoWheel.setPower(0);
             }
 
-            if (gamepad1.right_bumper && isLeftTriggerDown) {
-                intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                geckoWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                flywheel.setVelocity(4000 / 60 * 28);
-                geckoWheel.setPower(1);
-                intake.setPower(.75);
-            }
-
-            else if (gamepad1.right_bumper) {
-
-                flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                flywheel.setVelocity(4000 / 60 * 28);
-            }
-
-            else {
-                flywheel.setPower(0);
-                geckoWheel.setPower(0);
-                intake.setPower(0);
-            }
             telemetry.update();
         }
     }
