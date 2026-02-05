@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -12,9 +15,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ZeMotorsNew extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        //this is a test
-
-        //This is a test:
+        // IMPORTANT: link for documentation if you want to learn stuff yourself
+        // https://javadoc.io/doc/org.firstinspires.ftc
+        // or just google a specific class if you cant find it
+        // ex. for motors just google "ftc motor class" and it should show
+        // docs for dcmotor (or just google what you need to do and add ftc and it should
+        // work fine
 
         // Intake (obviously)
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
@@ -29,24 +35,20 @@ public class ZeMotorsNew extends LinearOpMode {
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Drivetrain
-        Drivetrain drivetrain = new Drivetrain(hardwareMap);
-        drivetrain.initOpMode();
+        // Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        //drivetrain.initOpMode();
+
+        double maxFlywheelSpeed = UnnormalizedAngleUnit.DEGREES.toDegrees(310);
 
         waitForStart();
 
         while (this.opModeIsActive()) {
 
-            double drive = -gamepad1.left_stick_y;
-            double strafe = gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
+            // double drive = -gamepad1.left_stick_y;
+            //double strafe = gamepad1.left_stick_x;
+            //double turn = gamepad1.right_stick_x;
 
-            drivetrain.drive(drive, strafe, turn);
-
-            // store velocity
-            double currentFlywheelVelo = flywheel.getVelocity();
-
-            // declare and initialize default for velocity (0)
-            double oldFlywheelVelo = 0;
+            //drivetrain.drive(drive, strafe, turn);
 
             // check if current velocity is different from our old velocity
             // if so, set the old velocity to current and tell DS to tell drivers
@@ -56,12 +58,11 @@ public class ZeMotorsNew extends LinearOpMode {
             // WARNING: I HAVE NO CLUE HOW THE TICKS THINGS WORK SO IMA HAVE TO PLAY WITH IT
             // so rn basically this is an indev feature and will eventually work right
             // cheese incorporated (c) 2026
-            if (currentFlywheelVelo != oldFlywheelVelo) {
-                oldFlywheelVelo = currentFlywheelVelo;
-                telemetry.addData("Current Flywheel Velocity", currentFlywheelVelo);
-                if ((int) currentFlywheelVelo == 4000) {
-                    telemetry.addLine("Fire when ready!");
-                }
+
+            // TODO: check flywheel rpm and change this over to angle units (rotations / s
+            telemetry.addData("Current Flywheel Velocity", -flywheel.getVelocity(AngleUnit.DEGREES));
+            if (UnnormalizedAngleUnit.DEGREES.toDegrees(flywheel.getVelocity(AngleUnit.DEGREES)) >= 300) {
+                telemetry.addLine("Fire when ready!");
             }
 
             // Turn on intake
@@ -74,14 +75,14 @@ public class ZeMotorsNew extends LinearOpMode {
 
             // If statement for launcher activation
             if (gamepad1.left_trigger >= 0.5) {
-                flywheel.setVelocity(4000 / 60 * 28);
+                flywheel.setVelocity(maxFlywheelSpeed);
                 geckoWheel.setPower(1);
                 intake.setPower(1);
 
             }
 
-            else if(gamepad1.right_bumper) {
-                flywheel.setVelocity(4000 / 60 * 28);
+            else if (gamepad1.right_bumper) {
+                flywheel.setVelocity(maxFlywheelSpeed);
             }
 
             else {
