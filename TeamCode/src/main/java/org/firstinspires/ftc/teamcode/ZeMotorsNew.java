@@ -35,8 +35,8 @@ public class ZeMotorsNew extends LinearOpMode {
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Drivetrain
-        // Drivetrain drivetrain = new Drivetrain(hardwareMap);
-        //drivetrain.initOpMode();
+        Drivetrain drivetrain = new Drivetrain(hardwareMap);
+        drivetrain.initOpMode();
 
         double maxFlywheelSpeed = UnnormalizedAngleUnit.DEGREES.toDegrees(310);
 
@@ -44,11 +44,11 @@ public class ZeMotorsNew extends LinearOpMode {
 
         while (this.opModeIsActive()) {
 
-            // double drive = -gamepad1.left_stick_y;
-            //double strafe = gamepad1.left_stick_x;
-            //double turn = gamepad1.right_stick_x;
+            double drive = -gamepad1.left_stick_y;
+            double strafe = gamepad1.left_stick_x;
+            double turn = gamepad1.right_stick_x;
 
-            //drivetrain.drive(drive, strafe, turn);
+            drivetrain.drive(drive, strafe, turn);
 
             // check if current velocity is different from our old velocity
             // if so, set the old velocity to current and tell DS to tell drivers
