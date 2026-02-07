@@ -23,8 +23,11 @@ public class ZeMotorsNew extends LinearOpMode {
         // work fine
 
         // Intake (obviously)
-        DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        DcMotorEx intake = (DcMotorEx) hardwareMap.get(DcMotor.class, "intake");
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
         // Gecko Wheel setup
         DcMotor geckoWheel = hardwareMap.get(DcMotor.class, "geckoWheel");
@@ -38,9 +41,11 @@ public class ZeMotorsNew extends LinearOpMode {
         Drivetrain drivetrain = new Drivetrain(hardwareMap);
         drivetrain.initOpMode();
 
-        double maxFlywheelSpeed = UnnormalizedAngleUnit.DEGREES.toDegrees(310);
+        double maxFlywheelSpeed = 2000 * 28 / 60.0;
+
 
         waitForStart();
+        intake.setPower(1);
 
         while (this.opModeIsActive()) {
 
@@ -55,56 +60,52 @@ public class ZeMotorsNew extends LinearOpMode {
             // what the current velocity is
             // Also checks if velo is 4k and notifies that it is ready to fire
 
-            // WARNING: I HAVE NO CLUE HOW THE TICKS THINGS WORK SO IMA HAVE TO PLAY WITH IT
-            // so rn basically this is an indev feature and will eventually work right
-            // cheese incorporated (c) 2026
-
             // TODO: check flywheel rpm and change this over to angle units (rotations / s
-            telemetry.addData("Current Flywheel Velocity", -flywheel.getVelocity(AngleUnit.DEGREES));
-            if (UnnormalizedAngleUnit.DEGREES.toDegrees(flywheel.getVelocity(AngleUnit.DEGREES)) >= 300) {
+            telemetry.addData("Current Flywheel Velocity", -flywheel.getVelocity() * (60 / 28.0));
+            if (-(flywheel.getVelocity() * (60 / 28.0)) >= 2000) {
                 telemetry.addLine("Fire when ready!");
             }
 
             // Turn on intake
             if (gamepad1.right_trigger >= 0.5) {
-                intake.setPower(.75);
+                intake.setPower(1);
             }
             else {
-                intake.setPower(0);
+                intake.setVelocity(0);
             }
 
             // If statement for launcher activation
-            if (gamepad1.left_trigger >= 0.5) {
+            if (gamepad1.left_trigger >= 0.5 && (-flywheel.getVelocity() * (60 / 28.0) <= 2200)) {
                 flywheel.setVelocity(maxFlywheelSpeed);
                 geckoWheel.setPower(1);
                 intake.setPower(1);
+                intake.setVelocity(1000);
 
             }
-
-            else if (gamepad1.right_bumper) {
+            else if (gamepad1.right_bumper && (-flywheel.getVelocity() * (60 / 28.0) <= 2200)) {
                 flywheel.setVelocity(maxFlywheelSpeed);
             }
 
             else {
                 flywheel.setPower(0);
                 geckoWheel.setPower(0);
-                intake.setPower(0);
+                intake.setVelocity(0);
             }
 
             // Cycle artifacts through the "system"
             // forget if we need to change the speed or not
             if (gamepad1.y) {
-                intake.setPower(0.4);
-                geckoWheel.setPower(0.4);
+                intake.setVelocity(1000);
+                geckoWheel.setPower(1);
             }
             else {
-                intake.setPower(0);
+                intake.setVelocity(0);
                 geckoWheel.setPower(0);
             }
 
             // artifact removal code
             if (gamepad1.b) {
-                intake.setPower(-0.5);
+                intake.setVelocity(-1000);
                 geckoWheel.setPower(-0.5);
             }
 
